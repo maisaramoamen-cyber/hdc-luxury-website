@@ -1,0 +1,195 @@
+/* HDC Luxury Website - Custom Styles with Color Psychology */
+
+/* Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.6;
+  color: #0f172a;
+  background-color: #f8fafc;
+}
+
+/* Color Psychology Variables */
+:root {
+  /* Primary Colors (60% - Anxiety Reduction) */
+  --trust-blue: #1e40af;
+  --calming-blue: #3b82f6;
+  --wellness-green: #059669;
+  --mint-green: #10b981;
+  
+  /* Secondary Colors (30% - Supporting Trust) */
+  --professional-white: #ffffff;
+  --luxury-gray: #64748b;
+  --soft-gray: #f1f5f9;
+  --warm-beige: #f5f5dc;
+  
+  /* Accent Colors (10% - Luxury Highlights) */
+  --luxury-gold: #d97706;
+  --warm-yellow: #fbbf24;
+  --success-green: #16a34a;
+  --energy-orange: #ea580c;
+}
+
+/* Typography Hierarchy */
+.luxury-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+.professional-text {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+/* Anxiety-Reducing Animations */
+.calm-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.calm-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(30, 64, 175, 0.15);
+}
+
+/* Trust-Building Elements */
+.trust-indicator {
+  background: linear-gradient(135deg, var(--trust-blue), var(--calming-blue));
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  box-shadow: 0 4px 14px rgba(30, 64, 175, 0.25);
+}
+
+.luxury-accent {
+  background: linear-gradient(135deg, var(--luxury-gold), var(--warm-yellow));
+  color: #000;
+  padding: 0.5rem 1rem;
+  border-radius: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.875rem;
+}
+
+/* Wellness Color Integration */
+.wellness-gradient {
+  background: linear-gradient(135deg, var(--wellness-green), var(--mint-green));
+}
+
+.calming-background {
+  background: linear-gradient(135deg, 
+    var(--soft-gray) 0%, 
+    rgba(59, 130, 246, 0.05) 50%, 
+    rgba(16, 185, 129, 0.05) 100%
+  );
+}
+
+/* Professional Cards */
+.professional-card {
+  background: var(--professional-white);
+  border: 1px solid rgba(203, 213, 225, 0.5);
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(15, 23, 42, 0.05);
+  transition: all 0.3s ease;
+}
+
+.professional-card:hover {
+  box-shadow: 0 20px 25px rgba(15, 23, 42, 0.1);
+  transform: translateY(-4px);
+  border-color: var(--calming-blue);
+}
+
+/* Biophilic Design Elements */
+.nature-inspired {
+  background: radial-gradient(circle at 30% 70%, 
+    rgba(34, 197, 94, 0.1) 0%, 
+    rgba(14, 165, 233, 0.05) 50%, 
+    transparent 100%
+  );
+}
+
+/* Conversion-Optimized CTAs */
+.energy-cta {
+  background: linear-gradient(135deg, var(--energy-orange), #f97316);
+  color: white;
+  font-weight: 700;
+  padding: 1rem 2rem;
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.energy-cta:hover {
+  background: linear-gradient(135deg, #dc2626, var(--energy-orange));
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(234, 88, 12, 0.3);
+}
+
+/* Floating Elements */
+.floating-element {
+  animation: gentleFloat 6s ease-in-out infinite;
+}
+
+@keyframes gentleFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Smooth Scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .professional-card {
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .luxury-title {
+    font-size: 2rem;
+    line-height: 1.2;
+  }
+}
+
+/* Accessibility Enhancements */
+.focus-visible {
+  outline: 2px solid var(--calming-blue);
+  outline-offset: 2px;
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .professional-card {
+    border: 2px solid var(--trust-blue);
+  }
+  
+  .luxury-accent {
+    background: var(--trust-blue);
+    color: white;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .floating-element {
+    animation: none;
+  }
+  
+  .calm-hover {
+    transition: none;
+  }
+}
