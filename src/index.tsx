@@ -1,6 +1,7 @@
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 import { serveStatic } from 'hono/cloudflare-workers'
+import api from './api-routes'
 
 // HDC LUXURY DATA WITH PROFESSIONAL PHOTOS AND COLOR PSYCHOLOGY
 export const HDC_DATA = {
@@ -96,44 +97,12 @@ app.use('/api/*', cors())
 // Serve static files
 app.use('/static/*', serveStatic({ root: './public' }))
 
-// API ROUTES
-app.get('/api/health', (c) => {
-  return c.json({ 
-    status: 'healthy', 
-    service: 'HDC Luxury Dental Website',
-    timestamp: new Date().toISOString(),
-    colorPsychology: 'optimized'
-  })
-})
+// Mount API routes
+app.route('/api', api)
 
+// Legacy API route for HDC data
 app.get('/api/hdc-data', (c) => {
   return c.json(HDC_DATA)
-})
-
-app.get('/api/whatsapp/test', (c) => {
-  const phone = HDC_DATA.clinic.phone
-  const message = 'Hello HDC, I would like to book a luxury consultation'
-  const whatsappUrl = `https://wa.me/${phone.replace('+', '')}?text=${encodeURIComponent(message)}`
-  
-  return c.json({
-    success: true,
-    phone: phone,
-    whatsappUrl: whatsappUrl,
-    testUrl: whatsappUrl,
-    timestamp: new Date().toISOString()
-  })
-})
-
-app.post('/api/booking', async (c) => {
-  const body = await c.req.json()
-  
-  return c.json({
-    success: true,
-    message: 'Luxury consultation request received',
-    booking: body,
-    timestamp: new Date().toISOString(),
-    conciergeContact: HDC_DATA.clinic.phone
-  })
 })
 
 // MAIN PAGE WITH COLOR PSYCHOLOGY - COMPLETE LUXURY WEBSITE
@@ -216,7 +185,7 @@ app.get('/', (c) => {
                         <a href="https://wa.me/${HDC_DATA.clinic.phone.replace('+', '')}?text=Hello%20HDC,%20I%20would%20like%20to%20book%20a%20luxury%20consultation" target="_blank" class="hidden md:flex items-center bg-wellness-600 text-white px-6 py-3 rounded-full hover:bg-wellness-500 transition-colors shadow-lg">
                             <i class="fab fa-whatsapp mr-2"></i>Concierge
                         </a>
-                        <a href="/book" class="bg-gradient-to-r from-trust-600 to-wellness-500 text-white px-8 py-3 rounded-full hover:from-trust-500 hover:to-wellness-400 transition-colors font-bold shadow-lg">
+                        <a href="/booking.html" class="bg-gradient-to-r from-trust-600 to-wellness-500 text-white px-8 py-3 rounded-full hover:from-trust-500 hover:to-wellness-400 transition-colors font-bold shadow-lg">
                             <i class="fas fa-crown mr-2"></i>Book Luxury
                         </a>
                     </div>
@@ -243,7 +212,7 @@ app.get('/', (c) => {
                         </p>
                         
                         <div class="flex flex-col sm:flex-row gap-4 pt-6">
-                            <a href="/book" class="bg-gradient-to-r from-trust-600 to-wellness-500 text-white px-8 py-4 rounded-full font-bold text-lg hover:from-trust-700 hover:to-wellness-600 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:scale-105">
+                            <a href="/booking.html" class="bg-gradient-to-r from-trust-600 to-wellness-500 text-white px-8 py-4 rounded-full font-bold text-lg hover:from-trust-700 hover:to-wellness-600 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:scale-105">
                                 <i class="fas fa-crown mr-2"></i>Book Luxury Consultation
                             </a>
                             <a href="/gallery" class="border-2 border-trust-600 text-trust-600 px-8 py-4 rounded-full font-bold text-lg hover:bg-trust-600 hover:text-white transition-all duration-300">
@@ -315,8 +284,8 @@ app.get('/', (c) => {
                 </div>
                 
                 <div class="text-center">
-                    <a href="/gallery" class="bg-gradient-to-r from-trust-600 to-wellness-500 text-white px-8 py-4 rounded-full font-bold text-lg hover:from-trust-700 hover:to-wellness-600 transition-all duration-300 shadow-xl">
-                        View Complete Gallery <i class="fas fa-arrow-right ml-2"></i>
+                    <a href="/booking.html" class="bg-gradient-to-r from-trust-600 to-wellness-500 text-white px-8 py-4 rounded-full font-bold text-lg hover:from-trust-700 hover:to-wellness-600 transition-all duration-300 shadow-xl">
+                        <i class="fas fa-crown mr-2"></i>Book Your Transformation
                     </a>
                 </div>
             </div>
@@ -421,7 +390,7 @@ app.get('/', (c) => {
                     <div class="flex flex-col md:flex-row justify-between items-center">
                         <p class="text-calm-400 text-sm mb-4 md:mb-0">© 2024 Hamido Dental Clinics. Luxury Is Dentistry. All rights reserved.</p>
                         <div class="flex space-x-6">
-                            <a href="#" class="text-calm-400 hover:text-wellness-400 transition-colors"><i class="fab fa-instagram text-xl"></i></a>
+                            <a href="https://www.instagram.com/hamidodental?igsh=MTIybjI0dTRsNm55eQ==" target="_blank" class="text-calm-400 hover:text-wellness-400 transition-colors"><i class="fab fa-instagram text-xl"></i></a>
                             <a href="#" class="text-calm-400 hover:text-wellness-400 transition-colors"><i class="fab fa-facebook text-xl"></i></a>
                             <a href="https://wa.me/${HDC_DATA.clinic.phone.replace('+', '')}" class="text-calm-400 hover:text-wellness-400 transition-colors"><i class="fab fa-whatsapp text-xl"></i></a>
                         </div>

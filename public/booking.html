@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Appointment - Hamido Dental Clinics</title>
+    <meta name="description" content="Book your luxury dental appointment at Hamido Dental Clinics. Choose from our expert specialists and available time slots.">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+          theme: {
+            extend: {
+              colors: {
+                trust: { 50: '#eff6ff', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 800: '#1e40af', 900: '#1e3a8a' },
+                wellness: { 50: '#f0fdf4', 500: '#10b981', 600: '#059669', 700: '#047857', 800: '#065f46', 900: '#064e3b' },
+                luxury: { 50: '#fefce8', 500: '#eab308', 600: '#d97706', 700: '#b45309', 800: '#92400e', 900: '#78350f' },
+                calm: { 50: '#f8fafc', 100: '#f1f5f9', 500: '#64748b', 900: '#0f172a' }
+              },
+              fontFamily: { 'sans': ['Inter', 'system-ui', 'sans-serif'], 'luxury': ['Playfair Display', 'Georgia', 'serif'] }
+            }
+          }
+        }
+    </script>
+</head>
+<body class="font-sans antialiased bg-calm-50 text-calm-900">
+    
+    <!-- LUXURY HEADER -->
+    <header class="bg-white shadow-xl sticky top-0 z-50 border-b border-wellness-200">
+        <div class="container mx-auto px-4">
+            <nav class="flex justify-between items-center py-4">
+                <div class="flex items-center">
+                    <a href="/" class="flex items-center space-x-4">
+                        <div class="bg-gradient-to-br from-trust-600 via-wellness-500 to-trust-700 text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg">
+                            <i class="fas fa-crown text-2xl"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-2xl font-bold text-calm-800">HDC</h1>
+                            <p class="text-sm text-wellness-600 font-medium">Luxury Is Dentistry</p>
+                        </div>
+                    </a>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <a href="/" class="text-calm-700 hover:text-wellness-600 font-medium transition-colors">
+                        <i class="fas fa-arrow-left mr-2"></i>Back to Home
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- BOOKING INTERFACE -->
+    <section class="py-12 min-h-screen">
+        <div class="container mx-auto px-4 max-w-6xl">
+            
+            <!-- HEADER -->
+            <div class="text-center mb-12">
+                <h1 class="text-4xl font-luxury font-bold text-calm-900 mb-4">
+                    <span class="text-trust-800">Book Your</span> <span class="text-wellness-600">Luxury Appointment</span>
+                </h1>
+                <p class="text-xl text-calm-600 max-w-2xl mx-auto">Schedule your consultation with our expert dental specialists</p>
+            </div>
+            
+            <!-- BOOKING FORM -->
+            <div class="grid lg:grid-cols-3 gap-8">
+                
+                <!-- STEP 1: PATIENT INFORMATION -->
+                <div class="lg:col-span-2">
+                    <div class="bg-white rounded-2xl shadow-xl p-8 mb-8">
+                        <div class="flex items-center mb-6">
+                            <div class="bg-trust-600 text-white rounded-full w-8 h-8 flex items-center justify-center mr-4 font-bold">1</div>
+                            <h2 class="text-2xl font-bold text-calm-900">Patient Information</h2>
+                        </div>
+                        
+                        <form id="patientForm" class="space-y-6">
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-calm-700 mb-2">First Name *</label>
+                                    <input type="text" id="firstName" required class="w-full px-4 py-3 border border-calm-300 rounded-lg focus:ring-2 focus:ring-trust-500 focus:border-trust-500 transition-colors">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-calm-700 mb-2">Last Name *</label>
+                                    <input type="text" id="lastName" required class="w-full px-4 py-3 border border-calm-300 rounded-lg focus:ring-2 focus:ring-trust-500 focus:border-trust-500 transition-colors">
+                                </div>
+                            </div>
+                            
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-calm-700 mb-2">Email *</label>
+                                    <input type="email" id="email" required class="w-full px-4 py-3 border border-calm-300 rounded-lg focus:ring-2 focus:ring-trust-500 focus:border-trust-500 transition-colors">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-calm-700 mb-2">Phone *</label>
+                                    <input type="tel" id="phone" required class="w-full px-4 py-3 border border-calm-300 rounded-lg focus:ring-2 focus:ring-trust-500 focus:border-trust-500 transition-colors">
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-calm-700 mb-2">Date of Birth</label>
+                                <input type="date" id="dateOfBirth" class="w-full px-4 py-3 border border-calm-300 rounded-lg focus:ring-2 focus:ring-trust-500 focus:border-trust-500 transition-colors">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-calm-700 mb-2">Preferred Communication Method</label>
+                                <select id="communicationMethod" class="w-full px-4 py-3 border border-calm-300 rounded-lg focus:ring-2 focus:ring-trust-500 focus:border-trust-500 transition-colors">
+                                    <option value="whatsapp">WhatsApp</option>
+                                    <option value="email">Email</option>
+                                    <option value="sms">SMS</option>
+                                    <option value="call">Phone Call</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <!-- STEP 2: SERVICE SELECTION -->
+                    <div class="bg-white rounded-2xl shadow-xl p-8 mb-8">
+                        <div class="flex items-center mb-6">
+                            <div class="bg-trust-600 text-white rounded-full w-8 h-8 flex items-center justify-center mr-4 font-bold">2</div>
+                            <h2 class="text-2xl font-bold text-calm-900">Select Service</h2>
+                        </div>
+                        
+                        <div id="servicesContainer" class="space-y-4">
+                            <!-- Services will be loaded here -->
+                        </div>
+                    </div>
+                    
+                    <!-- STEP 3: DOCTOR SELECTION -->
+                    <div class="bg-white rounded-2xl shadow-xl p-8 mb-8">
+                        <div class="flex items-center mb-6">
+                            <div class="bg-trust-600 text-white rounded-full w-8 h-8 flex items-center justify-center mr-4 font-bold">3</div>
+                            <h2 class="text-2xl font-bold text-calm-900">Choose Your Specialist</h2>
+                        </div>
+                        
+                        <div id="doctorsContainer" class="space-y-4">
+                            <!-- Doctors will be loaded here -->
+                        </div>
+                    </div>
+                    
+                    <!-- STEP 4: DATE & TIME SELECTION -->
+                    <div class="bg-white rounded-2xl shadow-xl p-8">
+                        <div class="flex items-center mb-6">
+                            <div class="bg-trust-600 text-white rounded-full w-8 h-8 flex items-center justify-center mr-4 font-bold">4</div>
+                            <h2 class="text-2xl font-bold text-calm-900">Select Date & Time</h2>
+                        </div>
+                        
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-calm-700 mb-2">Preferred Date</label>
+                                <input type="date" id="appointmentDate" class="w-full px-4 py-3 border border-calm-300 rounded-lg focus:ring-2 focus:ring-trust-500 focus:border-trust-500 transition-colors">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-calm-700 mb-2">Available Time Slots</label>
+                                <div id="timeSlotsContainer" class="space-y-2">
+                                    <p class="text-calm-500 italic">Please select a doctor and date first</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6">
+                            <label class="block text-sm font-medium text-calm-700 mb-2">Additional Notes</label>
+                            <textarea id="appointmentNotes" rows="3" class="w-full px-4 py-3 border border-calm-300 rounded-lg focus:ring-2 focus:ring-trust-500 focus:border-trust-500 transition-colors" placeholder="Any specific concerns or requests..."></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- BOOKING SUMMARY -->
+                <div class="lg:col-span-1">
+                    <div class="bg-gradient-to-br from-trust-50 to-wellness-50 rounded-2xl shadow-xl p-8 sticky top-24">
+                        <h3 class="text-2xl font-bold text-calm-900 mb-6">Booking Summary</h3>
+                        
+                        <div id="bookingSummary" class="space-y-4 mb-8">
+                            <div class="flex justify-between items-center py-2 border-b border-calm-200">
+                                <span class="text-calm-600">Patient:</span>
+                                <span id="summaryPatient" class="font-medium text-calm-900">-</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2 border-b border-calm-200">
+                                <span class="text-calm-600">Service:</span>
+                                <span id="summaryService" class="font-medium text-calm-900">-</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2 border-b border-calm-200">
+                                <span class="text-calm-600">Doctor:</span>
+                                <span id="summaryDoctor" class="font-medium text-calm-900">-</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2 border-b border-calm-200">
+                                <span class="text-calm-600">Date & Time:</span>
+                                <span id="summaryDateTime" class="font-medium text-calm-900">-</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2 border-b border-calm-200">
+                                <span class="text-calm-600">Duration:</span>
+                                <span id="summaryDuration" class="font-medium text-calm-900">-</span>
+                            </div>
+                            <div class="flex justify-between items-center py-3 bg-luxury-50 rounded-lg px-4">
+                                <span class="text-luxury-800 font-bold">Estimated Cost:</span>
+                                <span id="summaryCost" class="font-bold text-luxury-800 text-lg">-</span>
+                            </div>
+                        </div>
+                        
+                        <button id="bookAppointmentBtn" disabled class="w-full bg-gradient-to-r from-trust-600 to-wellness-500 text-white px-8 py-4 rounded-full font-bold text-lg hover:from-trust-700 hover:to-wellness-600 transition-all duration-300 shadow-xl disabled:opacity-50 disabled:cursor-not-allowed">
+                            <i class="fas fa-crown mr-2"></i>Book Luxury Appointment
+                        </button>
+                        
+                        <div class="mt-6 text-center">
+                            <p class="text-sm text-calm-600 mb-4">Need immediate assistance?</p>
+                            <a href="https://wa.me/201114591117?text=Hello%20HDC,%20I%20need%20help%20with%20booking" target="_blank" class="inline-flex items-center bg-wellness-600 text-white px-6 py-3 rounded-full hover:bg-wellness-500 transition-colors">
+                                <i class="fab fa-whatsapp mr-2"></i>WhatsApp Concierge
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- SUCCESS MODAL -->
+    <div id="successModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 text-center">
+            <div class="bg-wellness-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
+                <i class="fas fa-check text-3xl text-wellness-600"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-calm-900 mb-4">Appointment Confirmed!</h3>
+            <p class="text-calm-600 mb-6">Your luxury consultation has been successfully booked. You will receive a confirmation via your preferred communication method.</p>
+            <div class="space-y-3">
+                <button id="whatsappConfirmBtn" class="w-full bg-wellness-600 text-white px-6 py-3 rounded-full hover:bg-wellness-500 transition-colors">
+                    <i class="fab fa-whatsapp mr-2"></i>Confirm via WhatsApp
+                </button>
+                <button id="closeModalBtn" class="w-full border border-calm-300 text-calm-700 px-6 py-3 rounded-full hover:bg-calm-50 transition-colors">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- LOADING OVERLAY -->
+    <div id="loadingOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden flex items-center justify-center">
+        <div class="bg-white rounded-2xl p-8 text-center">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-trust-600 mx-auto mb-4"></div>
+            <p class="text-calm-700 font-medium">Processing your appointment...</p>
+        </div>
+    </div>
+    
+    <script>
+        // Global state
+        let selectedService = null;
+        let selectedDoctor = null;
+        let selectedTimeSlot = null;
+        let patientData = null;
+        
+        // API Base URL
+        const API_BASE = '/api';
+        
+        // Initialize the booking interface
+        document.addEventListener('DOMContentLoaded', function() {
+            loadServices();
+            loadDoctors();
+            setupEventListeners();
+            updateMinDate();
+        });
+        
+        // Setup event listeners
+        function setupEventListeners() {
+            // Patient form changes
+            const patientInputs = ['firstName', 'lastName', 'email', 'phone'];
+            patientInputs.forEach(id => {
+                document.getElementById(id).addEventListener('input', updatePatientData);
+            });
+            
+            // Date selection
+            document.getElementById('appointmentDate').addEventListener('change', loadTimeSlots);
+            
+            // Book appointment button
+            document.getElementById('bookAppointmentBtn').addEventListener('click', bookAppointment);
+            
+            // Modal close
+            document.getElementById('closeModalBtn').addEventListener('click', closeModal);
+            document.getElementById('whatsappConfirmBtn').addEventListener('click', openWhatsApp);
+        }
+        
+        // Update minimum date to today
+        function updateMinDate() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('appointmentDate').min = today;
+        }
+        
+        // Load services from API
+        async function loadServices() {
+            try {
+                const response = await fetch(`${API_BASE}/services`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    renderServices(data.data);
+                }
+            } catch (error) {
+                console.error('Error loading services:', error);
+            }
+        }
+        
+        // Render services
+        function renderServices(services) {
+            const container = document.getElementById('servicesContainer');
+            container.innerHTML = services.map(service => `
+                <div class="service-card border border-calm-200 rounded-lg p-4 cursor-pointer hover:border-trust-500 hover:shadow-lg transition-all duration-300" data-service-id="${service.id}">
+                    <div class="flex justify-between items-start mb-2">
+                        <h4 class="font-bold text-calm-900">${service.name}</h4>
+                        <span class="bg-luxury-100 text-luxury-800 px-3 py-1 rounded-full text-sm font-medium">${service.price.min} - ${service.price.max} ${service.price.currency}</span>
+                    </div>
+                    <p class="text-calm-600 text-sm mb-3">${service.description}</p>
+                    <div class="flex items-center text-sm text-calm-500">
+                        <i class="fas fa-clock mr-2"></i>
+                        <span>${service.duration} minutes</span>
+                        ${service.requiresConsultation ? '<span class="ml-4 bg-trust-100 text-trust-800 px-2 py-1 rounded text-xs">Consultation Required</span>' : ''}
+                    </div>
+                </div>
+            `).join('');
+            
+            // Add click handlers
+            container.querySelectorAll('.service-card').forEach(card => {
+                card.addEventListener('click', () => selectService(card.dataset.serviceId, services));
+            });
+        }
+        
+        // Load doctors from API
+        async function loadDoctors() {
+            try {
+                const response = await fetch(`${API_BASE}/doctors`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    renderDoctors(data.data);
+                }
+            } catch (error) {
+                console.error('Error loading doctors:', error);
+            }
+        }
+        
+        // Render doctors
+        function renderDoctors(doctors) {
+            const container = document.getElementById('doctorsContainer');
+            container.innerHTML = doctors.map(doctor => `
+                <div class="doctor-card border border-calm-200 rounded-lg p-4 cursor-pointer hover:border-trust-500 hover:shadow-lg transition-all duration-300" data-doctor-id="${doctor.id}">
+                    <div class="flex items-start space-x-4">
+                        <img src="${doctor.image}" alt="${doctor.name}" class="w-16 h-16 rounded-full object-cover">
+                        <div class="flex-1">
+                            <h4 class="font-bold text-calm-900">${doctor.name}</h4>
+                            <p class="text-trust-600 font-medium text-sm">${doctor.title}</p>
+                            <p class="text-calm-600 text-sm mt-1">${doctor.specialization.join(', ')}</p>
+                            <div class="flex items-center mt-2 text-sm text-calm-500">
+                                <i class="fas fa-star text-luxury-500 mr-1"></i>
+                                <span>${doctor.experience} years experience</span>
+                                <span class="mx-2">•</span>
+                                <span>${doctor.languages.join(', ')}</span>
+                            </div>
+                            <div class="flex items-center mt-2 space-x-3">
+                                ${doctor.socialMedia.instagram ? `<a href="https://instagram.com/${doctor.socialMedia.instagram.replace('@', '')}" target="_blank" class="text-pink-500 hover:text-pink-600"><i class="fab fa-instagram"></i></a>` : ''}
+                                ${doctor.socialMedia.facebook ? `<a href="https://facebook.com/${doctor.socialMedia.facebook}" target="_blank" class="text-blue-600 hover:text-blue-700"><i class="fab fa-facebook"></i></a>` : ''}
+                                ${doctor.socialMedia.whatsapp ? `<a href="https://wa.me/${doctor.socialMedia.whatsapp.replace('+', '')}" target="_blank" class="text-green-600 hover:text-green-700"><i class="fab fa-whatsapp"></i></a>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Add click handlers
+            container.querySelectorAll('.doctor-card').forEach(card => {
+                card.addEventListener('click', () => selectDoctor(card.dataset.doctorId, doctors));
+            });
+        }
+        
+        // Select service
+        function selectService(serviceId, services) {
+            selectedService = services.find(s => s.id === serviceId);
+            
+            // Update UI
+            document.querySelectorAll('.service-card').forEach(card => {
+                card.classList.remove('border-trust-500', 'bg-trust-50');
+            });
+            document.querySelector(`[data-service-id="${serviceId}"]`).classList.add('border-trust-500', 'bg-trust-50');
+            
+            updateSummary();
+            checkFormCompletion();
+        }
+        
+        // Select doctor
+        function selectDoctor(doctorId, doctors) {
+            selectedDoctor = doctors.find(d => d.id === doctorId);
+            
+            // Update UI
+            document.querySelectorAll('.doctor-card').forEach(card => {
+                card.classList.remove('border-trust-500', 'bg-trust-50');
+            });
+            document.querySelector(`[data-doctor-id="${doctorId}"]`).classList.add('border-trust-500', 'bg-trust-50');
+            
+            updateSummary();
+            loadTimeSlots();
+            checkFormCompletion();
+        }
+        
+        // Load available time slots
+        async function loadTimeSlots() {
+            const date = document.getElementById('appointmentDate').value;
+            if (!selectedDoctor || !date) return;
+            
+            try {
+                const response = await fetch(`${API_BASE}/slots?doctorId=${selectedDoctor.id}&date=${date}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    renderTimeSlots(data.data);
+                }
+            } catch (error) {
+                console.error('Error loading time slots:', error);
+            }
+        }
+        
+        // Render time slots
+        function renderTimeSlots(slots) {
+            const container = document.getElementById('timeSlotsContainer');
+            const availableSlots = slots.filter(slot => slot.isAvailable);
+            
+            if (availableSlots.length === 0) {
+                container.innerHTML = '<p class="text-calm-500 italic">No available slots for this date</p>';
+                return;
+            }
+            
+            container.innerHTML = availableSlots.map(slot => `
+                <button class="time-slot w-full text-left px-4 py-2 border border-calm-300 rounded-lg hover:border-trust-500 hover:bg-trust-50 transition-colors" data-slot="${slot.startTime}">
+                    ${slot.startTime} - ${slot.endTime}
+                </button>
+            `).join('');
+            
+            // Add click handlers
+            container.querySelectorAll('.time-slot').forEach(button => {
+                button.addEventListener('click', () => selectTimeSlot(button.dataset.slot, button));
+            });
+        }
+        
+        // Select time slot
+        function selectTimeSlot(time, button) {
+            selectedTimeSlot = time;
+            
+            // Update UI
+            document.querySelectorAll('.time-slot').forEach(btn => {
+                btn.classList.remove('border-trust-500', 'bg-trust-50');
+            });
+            button.classList.add('border-trust-500', 'bg-trust-50');
+            
+            updateSummary();
+            checkFormCompletion();
+        }
+        
+        // Update patient data
+        function updatePatientData() {
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            
+            if (firstName && lastName && email && phone) {
+                patientData = {
+                    firstName,
+                    lastName,
+                    email,
+                    phone,
+                    dateOfBirth: document.getElementById('dateOfBirth').value,
+                    preferences: {
+                        preferredLanguage: 'en',
+                        communicationMethod: document.getElementById('communicationMethod').value,
+                        reminderPreference: true
+                    }
+                };
+                
+                updateSummary();
+                checkFormCompletion();
+            }
+        }
+        
+        // Update booking summary
+        function updateSummary() {
+            document.getElementById('summaryPatient').textContent = 
+                patientData ? `${patientData.firstName} ${patientData.lastName}` : '-';
+            
+            document.getElementById('summaryService').textContent = 
+                selectedService ? selectedService.name : '-';
+            
+            document.getElementById('summaryDoctor').textContent = 
+                selectedDoctor ? selectedDoctor.name : '-';
+            
+            const date = document.getElementById('appointmentDate').value;
+            document.getElementById('summaryDateTime').textContent = 
+                (date && selectedTimeSlot) ? `${date} at ${selectedTimeSlot}` : '-';
+            
+            document.getElementById('summaryDuration').textContent = 
+                selectedService ? `${selectedService.duration} minutes` : '-';
+            
+            document.getElementById('summaryCost').textContent = 
+                selectedService ? `${selectedService.price.min} - ${selectedService.price.max} ${selectedService.price.currency}` : '-';
+        }
+        
+        // Check if form is complete
+        function checkFormCompletion() {
+            const isComplete = patientData && selectedService && selectedDoctor && selectedTimeSlot && document.getElementById('appointmentDate').value;
+            document.getElementById('bookAppointmentBtn').disabled = !isComplete;
+        }
+        
+        // Book appointment
+        async function bookAppointment() {
+            if (!patientData || !selectedService || !selectedDoctor || !selectedTimeSlot) return;
+            
+            showLoading(true);
+            
+            try {
+                // First, create/register patient
+                const patientResponse = await fetch(`${API_BASE}/patients`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(patientData)
+                });
+                
+                let patient;
+                if (patientResponse.status === 409) {
+                    // Patient exists, get by email
+                    const existingResponse = await fetch(`${API_BASE}/patients`);
+                    const existingData = await existingResponse.json();
+                    patient = existingData.data.find(p => p.email === patientData.email);
+                } else {
+                    const patientData_result = await patientResponse.json();
+                    patient = patientData_result.data;
+                }
+                
+                // Create appointment
+                const appointmentData = {
+                    patientId: patient.id,
+                    doctorId: selectedDoctor.id,
+                    serviceId: selectedService.id,
+                    appointmentType: 'consultation',
+                    dateTime: `${document.getElementById('appointmentDate').value}T${selectedTimeSlot}:00`,
+                    duration: selectedService.duration,
+                    notes: document.getElementById('appointmentNotes').value
+                };
+                
+                const appointmentResponse = await fetch(`${API_BASE}/appointments`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(appointmentData)
+                });
+                
+                const appointmentResult = await appointmentResponse.json();
+                
+                if (appointmentResult.success) {
+                    showSuccessModal(appointmentResult.data);
+                } else {
+                    alert('Error booking appointment: ' + appointmentResult.error);
+                }
+                
+            } catch (error) {
+                console.error('Error booking appointment:', error);
+                alert('Error booking appointment. Please try again.');
+            } finally {
+                showLoading(false);
+            }
+        }
+        
+        // Show loading overlay
+        function showLoading(show) {
+            document.getElementById('loadingOverlay').classList.toggle('hidden', !show);
+        }
+        
+        // Show success modal
+        function showSuccessModal(appointment) {
+            document.getElementById('successModal').classList.remove('hidden');
+            
+            // Setup WhatsApp confirmation
+            const whatsappBtn = document.getElementById('whatsappConfirmBtn');
+            const message = `Hello HDC! I've just booked an appointment:
+            
+📅 Date: ${new Date(appointment.dateTime).toLocaleDateString()}
+⏰ Time: ${new Date(appointment.dateTime).toLocaleTimeString()}
+👨‍⚕️ Doctor: ${selectedDoctor.name}
+🦷 Service: ${selectedService.name}
+📋 Appointment ID: ${appointment.id}
+
+Please confirm my booking. Thank you!`;
+            
+            whatsappBtn.onclick = () => {
+                window.open(`https://wa.me/201114591117?text=${encodeURIComponent(message)}`, '_blank');
+            };
+        }
+        
+        // Close modal
+        function closeModal() {
+            document.getElementById('successModal').classList.add('hidden');
+            // Optionally redirect to home or reset form
+            window.location.href = '/';
+        }
+        
+        // Open WhatsApp
+        function openWhatsApp() {
+            // This will be handled by the button's onclick
+        }
+    </script>
+</body>
+</html>

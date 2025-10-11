@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Hamido Dental Clinics</title>
+    <meta name="description" content="Admin dashboard for managing appointments, patients, and clinic operations at Hamido Dental Clinics.">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script>
+        tailwind.config = {
+          theme: {
+            extend: {
+              colors: {
+                trust: { 50: '#eff6ff', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 800: '#1e40af', 900: '#1e3a8a' },
+                wellness: { 50: '#f0fdf4', 500: '#10b981', 600: '#059669', 700: '#047857', 800: '#065f46', 900: '#064e3b' },
+                luxury: { 50: '#fefce8', 500: '#eab308', 600: '#d97706', 700: '#b45309', 800: '#92400e', 900: '#78350f' },
+                calm: { 50: '#f8fafc', 100: '#f1f5f9', 500: '#64748b', 900: '#0f172a' }
+              },
+              fontFamily: { 'sans': ['Inter', 'system-ui', 'sans-serif'], 'luxury': ['Playfair Display', 'Georgia', 'serif'] }
+            }
+          }
+        }
+    </script>
+</head>
+<body class="font-sans antialiased bg-calm-50 text-calm-900">
+    
+    <!-- ADMIN HEADER -->
+    <header class="bg-white shadow-xl sticky top-0 z-50 border-b border-wellness-200">
+        <div class="container mx-auto px-4">
+            <nav class="flex justify-between items-center py-4">
+                <div class="flex items-center">
+                    <div class="bg-gradient-to-br from-trust-600 via-wellness-500 to-trust-700 text-white rounded-full w-12 h-12 flex items-center justify-center shadow-lg mr-4">
+                        <i class="fas fa-crown text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-calm-800">HDC Admin Dashboard</h1>
+                        <p class="text-sm text-wellness-600 font-medium">Appointment Management System</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-2 text-sm text-calm-600">
+                        <i class="fas fa-user-circle text-lg"></i>
+                        <span>Admin User</span>
+                    </div>
+                    <a href="/" class="text-calm-700 hover:text-wellness-600 font-medium transition-colors">
+                        <i class="fas fa-home mr-2"></i>Back to Website
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- DASHBOARD CONTENT -->
+    <div class="container mx-auto px-4 py-8">
+        
+        <!-- ANALYTICS OVERVIEW -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white rounded-2xl shadow-lg p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-calm-600 text-sm font-medium">Total Patients</p>
+                        <p id="totalPatients" class="text-3xl font-bold text-calm-900">-</p>
+                    </div>
+                    <div class="bg-trust-100 rounded-full p-3">
+                        <i class="fas fa-users text-trust-600 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-2xl shadow-lg p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-calm-600 text-sm font-medium">Today's Appointments</p>
+                        <p id="todayAppointments" class="text-3xl font-bold text-calm-900">-</p>
+                    </div>
+                    <div class="bg-wellness-100 rounded-full p-3">
+                        <i class="fas fa-calendar-day text-wellness-600 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-2xl shadow-lg p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-calm-600 text-sm font-medium">Active Appointments</p>
+                        <p id="activeAppointments" class="text-3xl font-bold text-calm-900">-</p>
+                    </div>
+                    <div class="bg-luxury-100 rounded-full p-3">
+                        <i class="fas fa-clock text-luxury-600 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-2xl shadow-lg p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-calm-600 text-sm font-medium">Monthly Revenue</p>
+                        <p id="monthlyRevenue" class="text-3xl font-bold text-calm-900">-</p>
+                    </div>
+                    <div class="bg-green-100 rounded-full p-3">
+                        <i class="fas fa-dollar-sign text-green-600 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- MAIN DASHBOARD TABS -->
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+            
+            <!-- TAB NAVIGATION -->
+            <div class="border-b border-calm-200">
+                <nav class="flex space-x-8 px-6">
+                    <button class="tab-btn py-4 px-2 border-b-2 border-trust-600 text-trust-600 font-medium" data-tab="appointments">
+                        <i class="fas fa-calendar-alt mr-2"></i>Appointments
+                    </button>
+                    <button class="tab-btn py-4 px-2 border-b-2 border-transparent text-calm-600 hover:text-calm-900 font-medium" data-tab="patients">
+                        <i class="fas fa-users mr-2"></i>Patients
+                    </button>
+                    <button class="tab-btn py-4 px-2 border-b-2 border-transparent text-calm-600 hover:text-calm-900 font-medium" data-tab="doctors">
+                        <i class="fas fa-user-md mr-2"></i>Doctors
+                    </button>
+                    <button class="tab-btn py-4 px-2 border-b-2 border-transparent text-calm-600 hover:text-calm-900 font-medium" data-tab="analytics">
+                        <i class="fas fa-chart-bar mr-2"></i>Analytics
+                    </button>
+                    <button class="tab-btn py-4 px-2 border-b-2 border-transparent text-calm-600 hover:text-calm-900 font-medium" data-tab="social">
+                        <i class="fas fa-share-alt mr-2"></i>Social Media
+                    </button>
+                </nav>
+            </div>
+            
+            <!-- TAB CONTENT -->
+            <div class="p-6">
+                
+                <!-- APPOINTMENTS TAB -->
+                <div id="appointments-tab" class="tab-content">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold text-calm-900">Appointment Management</h2>
+                        <div class="flex space-x-3">
+                            <select id="appointmentFilter" class="px-4 py-2 border border-calm-300 rounded-lg focus:ring-2 focus:ring-trust-500">
+                                <option value="all">All Appointments</option>
+                                <option value="scheduled">Scheduled</option>
+                                <option value="confirmed">Confirmed</option>
+                                <option value="completed">Completed</option>
+                                <option value="cancelled">Cancelled</option>
+                            </select>
+                            <button id="refreshAppointments" class="bg-trust-600 text-white px-4 py-2 rounded-lg hover:bg-trust-700 transition-colors">
+                                <i class="fas fa-sync-alt mr-2"></i>Refresh
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="bg-calm-50">
+                                <tr>
+                                    <th class="px-4 py-3 text-left text-sm font-medium text-calm-600">Patient</th>
+                                    <th class="px-4 py-3 text-left text-sm font-medium text-calm-600">Doctor</th>
+                                    <th class="px-4 py-3 text-left text-sm font-medium text-calm-600">Service</th>
+                                    <th class="px-4 py-3 text-left text-sm font-medium text-calm-600">Date & Time</th>
+                                    <th class="px-4 py-3 text-left text-sm font-medium text-calm-600">Status</th>
+                                    <th class="px-4 py-3 text-left text-sm font-medium text-calm-600">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="appointmentsTableBody" class="divide-y divide-calm-200">
+                                <!-- Appointments will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- PATIENTS TAB -->
+                <div id="patients-tab" class="tab-content hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold text-calm-900">Patient Management</h2>
+                        <button id="refreshPatients" class="bg-trust-600 text-white px-4 py-2 rounded-lg hover:bg-trust-700 transition-colors">
+                            <i class="fas fa-sync-alt mr-2"></i>Refresh
+                        </button>
+                    </div>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="bg-calm-50">
+                                <tr>
+                                    <th class="px-4 py-3 text-left text-sm font-medium text-calm-600">Name</th>
+                                    <th class="px-4 py-3 text-left text-sm font-medium text-calm-600">Email</th>
+                                    <th class="px-4 py-3 text-left text-sm font-medium text-calm-600">Phone</th>
+                                    <th class="px-4 py-3 text-left text-sm font-medium text-calm-600">Appointments</th>
+                                    <th class="px-4 py-3 text-left text-sm font-medium text-calm-600">Registered</th>
+                                    <th class="px-4 py-3 text-left text-sm font-medium text-calm-600">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="patientsTableBody" class="divide-y divide-calm-200">
+                                <!-- Patients will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- DOCTORS TAB -->
+                <div id="doctors-tab" class="tab-content hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold text-calm-900">Doctor Profiles</h2>
+                    </div>
+                    
+                    <div id="doctorsGrid" class="grid md:grid-cols-2 gap-6">
+                        <!-- Doctors will be loaded here -->
+                    </div>
+                </div>
+                
+                <!-- ANALYTICS TAB -->
+                <div id="analytics-tab" class="tab-content hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold text-calm-900">Analytics & Reports</h2>
+                    </div>
+                    
+                    <div class="grid lg:grid-cols-2 gap-6 mb-8">
+                        <div class="bg-calm-50 rounded-xl p-6">
+                            <h3 class="text-lg font-bold text-calm-900 mb-4">Appointments by Status</h3>
+                            <canvas id="appointmentStatusChart" width="400" height="200"></canvas>
+                        </div>
+                        
+                        <div class="bg-calm-50 rounded-xl p-6">
+                            <h3 class="text-lg font-bold text-calm-900 mb-4">Popular Services</h3>
+                            <div id="popularServices" class="space-y-3">
+                                <!-- Popular services will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- SOCIAL MEDIA TAB -->
+                <div id="social-tab" class="tab-content hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold text-calm-900">Social Media Integration</h2>
+                    </div>
+                    
+                    <div class="grid lg:grid-cols-2 gap-6">
+                        <div class="bg-calm-50 rounded-xl p-6">
+                            <h3 class="text-lg font-bold text-calm-900 mb-4">
+                                <i class="fab fa-whatsapp text-green-600 mr-2"></i>WhatsApp Integration
+                            </h3>
+                            <p class="text-calm-600 mb-4">Send appointment confirmations and reminders via WhatsApp</p>
+                            
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-calm-700 mb-2">Test WhatsApp Message</label>
+                                    <textarea id="whatsappMessage" rows="3" class="w-full px-4 py-3 border border-calm-300 rounded-lg focus:ring-2 focus:ring-trust-500" placeholder="Enter test message...">Hello! This is a test message from HDC Admin Dashboard.</textarea>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-calm-700 mb-2">Phone Number</label>
+                                    <input type="tel" id="whatsappPhone" class="w-full px-4 py-3 border border-calm-300 rounded-lg focus:ring-2 focus:ring-trust-500" placeholder="+201234567890">
+                                </div>
+                                <button id="sendWhatsAppTest" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors">
+                                    <i class="fab fa-whatsapp mr-2"></i>Send Test Message
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-calm-50 rounded-xl p-6">
+                            <h3 class="text-lg font-bold text-calm-900 mb-4">
+                                <i class="fab fa-instagram text-pink-600 mr-2"></i>Instagram Integration
+                            </h3>
+                            <p class="text-calm-600 mb-4">Share success stories and patient transformations</p>
+                            
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-calm-700 mb-2">Instagram Post Content</label>
+                                    <textarea id="instagramContent" rows="3" class="w-full px-4 py-3 border border-calm-300 rounded-lg focus:ring-2 focus:ring-trust-500" placeholder="Share your success story...">🦷✨ Another beautiful smile transformation at HDC! #LuxuryDentistry #SmileDesign #HDC</textarea>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-calm-700 mb-2">Image URL (optional)</label>
+                                    <input type="url" id="instagramImage" class="w-full px-4 py-3 border border-calm-300 rounded-lg focus:ring-2 focus:ring-trust-500" placeholder="https://example.com/image.jpg">
+                                </div>
+                                <button id="shareInstagram" class="bg-pink-600 text-white px-6 py-3 rounded-lg hover:bg-pink-700 transition-colors">
+                                    <i class="fab fa-instagram mr-2"></i>Prepare Instagram Post
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Doctor Social Media Profiles -->
+                    <div class="mt-8 bg-white rounded-xl border border-calm-200 p-6">
+                        <h3 class="text-lg font-bold text-calm-900 mb-4">Doctor Social Media Profiles</h3>
+                        <div id="doctorSocialProfiles" class="space-y-4">
+                            <!-- Doctor social profiles will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- APPOINTMENT DETAILS MODAL -->
+    <div id="appointmentModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full p-8">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-calm-900">Appointment Details</h3>
+                <button id="closeAppointmentModal" class="text-calm-500 hover:text-calm-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <div id="appointmentDetails" class="space-y-4">
+                <!-- Appointment details will be loaded here -->
+            </div>
+            
+            <div class="flex space-x-4 mt-8">
+                <button id="confirmAppointment" class="bg-wellness-600 text-white px-6 py-3 rounded-lg hover:bg-wellness-700 transition-colors">
+                    <i class="fas fa-check mr-2"></i>Confirm
+                </button>
+                <button id="cancelAppointment" class="bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition-colors">
+                    <i class="fas fa-times mr-2"></i>Cancel
+                </button>
+                <button id="sendReminder" class="bg-trust-600 text-white px-6 py-3 rounded-lg hover:bg-trust-700 transition-colors">
+                    <i class="fas fa-bell mr-2"></i>Send Reminder
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- LOADING OVERLAY -->
+    <div id="loadingOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden flex items-center justify-center">
+        <div class="bg-white rounded-2xl p-8 text-center">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-trust-600 mx-auto mb-4"></div>
+            <p class="text-calm-700 font-medium">Loading...</p>
+        </div>
+    </div>
+    
+    <script>
+        // Global state
+        let currentTab = 'appointments';
+        let appointments = [];
+        let patients = [];
+        let doctors = [];
+        let analytics = {};
+        let selectedAppointment = null;
+        
+        // API Base URL
+        const API_BASE = '/api';
+        
+        // Initialize the admin dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            setupEventListeners();
+            loadDashboardData();
+        });
+        
+        // Setup event listeners
+        function setupEventListeners() {
+            // Tab navigation
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+            });
+            
+            // Refresh buttons
+            document.getElementById('refreshAppointments').addEventListener('click', loadAppointments);
+            document.getElementById('refreshPatients').addEventListener('click', loadPatients);
+            
+            // Filter
+            document.getElementById('appointmentFilter').addEventListener('change', filterAppointments);
+            
+            // Social media actions
+            document.getElementById('sendWhatsAppTest').addEventListener('click', sendWhatsAppTest);
+            document.getElementById('shareInstagram').addEventListener('click', shareInstagram);
+            
+            // Modal actions
+            document.getElementById('closeAppointmentModal').addEventListener('click', closeAppointmentModal);
+            document.getElementById('confirmAppointment').addEventListener('click', () => updateAppointmentStatus('confirmed'));
+            document.getElementById('cancelAppointment').addEventListener('click', () => updateAppointmentStatus('cancelled'));
+            document.getElementById('sendReminder').addEventListener('click', sendAppointmentReminder);
+        }
+        
+        // Switch tabs
+        function switchTab(tabName) {
+            currentTab = tabName;
+            
+            // Update tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('border-trust-600', 'text-trust-600');
+                btn.classList.add('border-transparent', 'text-calm-600');
+            });
+            document.querySelector(`[data-tab="${tabName}"]`).classList.remove('border-transparent', 'text-calm-600');
+            document.querySelector(`[data-tab="${tabName}"]`).classList.add('border-trust-600', 'text-trust-600');
+            
+            // Update tab content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+            document.getElementById(`${tabName}-tab`).classList.remove('hidden');
+            
+            // Load tab-specific data
+            switch(tabName) {
+                case 'appointments':
+                    loadAppointments();
+                    break;
+                case 'patients':
+                    loadPatients();
+                    break;
+                case 'doctors':
+                    loadDoctors();
+                    break;
+                case 'analytics':
+                    loadAnalytics();
+                    break;
+                case 'social':
+                    loadSocialProfiles();
+                    break;
+            }
+        }
+        
+        // Load dashboard data
+        async function loadDashboardData() {
+            showLoading(true);
+            try {
+                await Promise.all([
+                    loadAnalytics(),
+                    loadAppointments()
+                ]);
+            } catch (error) {
+                console.error('Error loading dashboard data:', error);
+            } finally {
+                showLoading(false);
+            }
+        }
+        
+        // Load analytics
+        async function loadAnalytics() {
+            try {
+                const response = await fetch(`${API_BASE}/analytics/dashboard`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    analytics = data.data;
+                    updateAnalyticsOverview();
+                    if (currentTab === 'analytics') {
+                        renderAnalyticsCharts();
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading analytics:', error);
+            }
+        }
+        
+        // Update analytics overview
+        function updateAnalyticsOverview() {
+            document.getElementById('totalPatients').textContent = analytics.overview?.totalPatients || 0;
+            document.getElementById('todayAppointments').textContent = analytics.today?.appointments || 0;
+            document.getElementById('activeAppointments').textContent = analytics.overview?.activeAppointments || 0;
+            document.getElementById('monthlyRevenue').textContent = analytics.thisMonth?.revenue ? `${analytics.thisMonth.revenue} EGP` : '0 EGP';
+        }
+        
+        // Load appointments
+        async function loadAppointments() {
+            try {
+                const response = await fetch(`${API_BASE}/appointments`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    appointments = data.data;
+                    renderAppointments();
+                }
+            } catch (error) {
+                console.error('Error loading appointments:', error);
+            }
+        }
+        
+        // Render appointments
+        function renderAppointments() {
+            const tbody = document.getElementById('appointmentsTableBody');
+            const filter = document.getElementById('appointmentFilter').value;
+            
+            let filteredAppointments = appointments;
+            if (filter !== 'all') {
+                filteredAppointments = appointments.filter(apt => apt.status === filter);
+            }
+            
+            tbody.innerHTML = filteredAppointments.map(appointment => {
+                const statusColors = {
+                    scheduled: 'bg-blue-100 text-blue-800',
+                    confirmed: 'bg-green-100 text-green-800',
+                    completed: 'bg-gray-100 text-gray-800',
+                    cancelled: 'bg-red-100 text-red-800'
+                };
+                
+                return `
+                    <tr class="hover:bg-calm-50 cursor-pointer" onclick="showAppointmentDetails('${appointment.id}')">
+                        <td class="px-4 py-3">
+                            <div>
+                                <div class="font-medium text-calm-900">${appointment.patient?.firstName} ${appointment.patient?.lastName}</div>
+                                <div class="text-sm text-calm-600">${appointment.patient?.email}</div>
+                            </div>
+                        </td>
+                        <td class="px-4 py-3">
+                            <div class="font-medium text-calm-900">${appointment.doctor?.name}</div>
+                            <div class="text-sm text-calm-600">${appointment.doctor?.title}</div>
+                        </td>
+                        <td class="px-4 py-3">
+                            <div class="font-medium text-calm-900">${appointment.service?.name}</div>
+                            <div class="text-sm text-calm-600">${appointment.service?.duration} min</div>
+                        </td>
+                        <td class="px-4 py-3">
+                            <div class="font-medium text-calm-900">${new Date(appointment.dateTime).toLocaleDateString()}</div>
+                            <div class="text-sm text-calm-600">${new Date(appointment.dateTime).toLocaleTimeString()}</div>
+                        </td>
+                        <td class="px-4 py-3">
+                            <span class="px-2 py-1 rounded-full text-xs font-medium ${statusColors[appointment.status] || 'bg-gray-100 text-gray-800'}">
+                                ${appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1)}
+                            </span>
+                        </td>
+                        <td class="px-4 py-3">
+                            <div class="flex space-x-2">
+                                <button onclick="event.stopPropagation(); sendWhatsAppReminder('${appointment.id}')" class="text-green-600 hover:text-green-800" title="Send WhatsApp">
+                                    <i class="fab fa-whatsapp"></i>
+                                </button>
+                                <button onclick="event.stopPropagation(); showAppointmentDetails('${appointment.id}')" class="text-trust-600 hover:text-trust-800" title="View Details">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+        
+        // Filter appointments
+        function filterAppointments() {
+            renderAppointments();
+        }
+        
+        // Load patients
+        async function loadPatients() {
+            try {
+                const response = await fetch(`${API_BASE}/patients`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    patients = data.data;
+                    renderPatients();
+                }
+            } catch (error) {
+                console.error('Error loading patients:', error);
+            }
+        }
+        
+        // Render patients
+        function renderPatients() {
+            const tbody = document.getElementById('patientsTableBody');
+            
+            tbody.innerHTML = patients.map(patient => {
+                const patientAppointments = appointments.filter(apt => apt.patientId === patient.id);
+                
+                return `
+                    <tr class="hover:bg-calm-50">
+                        <td class="px-4 py-3">
+                            <div class="font-medium text-calm-900">${patient.firstName} ${patient.lastName}</div>
+                        </td>
+                        <td class="px-4 py-3 text-calm-600">${patient.email}</td>
+                        <td class="px-4 py-3 text-calm-600">${patient.phone}</td>
+                        <td class="px-4 py-3">
+                            <span class="bg-trust-100 text-trust-800 px-2 py-1 rounded-full text-sm font-medium">
+                                ${patientAppointments.length}
+                            </span>
+                        </td>
+                        <td class="px-4 py-3 text-calm-600">${new Date(patient.createdAt).toLocaleDateString()}</td>
+                        <td class="px-4 py-3">
+                            <div class="flex space-x-2">
+                                <button onclick="contactPatient('${patient.id}', 'whatsapp')" class="text-green-600 hover:text-green-800" title="WhatsApp">
+                                    <i class="fab fa-whatsapp"></i>
+                                </button>
+                                <button onclick="contactPatient('${patient.id}', 'email')" class="text-blue-600 hover:text-blue-800" title="Email">
+                                    <i class="fas fa-envelope"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+        
+        // Load doctors
+        async function loadDoctors() {
+            try {
+                const response = await fetch(`${API_BASE}/doctors`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    doctors = data.data;
+                    renderDoctors();
+                }
+            } catch (error) {
+                console.error('Error loading doctors:', error);
+            }
+        }
+        
+        // Render doctors
+        function renderDoctors() {
+            const container = document.getElementById('doctorsGrid');
+            
+            container.innerHTML = doctors.map(doctor => `
+                <div class="bg-calm-50 rounded-xl p-6">
+                    <div class="flex items-start space-x-4 mb-4">
+                        <img src="${doctor.image}" alt="${doctor.name}" class="w-20 h-20 rounded-full object-cover">
+                        <div class="flex-1">
+                            <h4 class="font-bold text-calm-900 text-lg">${doctor.name}</h4>
+                            <p class="text-trust-600 font-medium">${doctor.title}</p>
+                            <p class="text-calm-600 text-sm mt-1">${doctor.specialization.join(', ')}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-2 text-sm text-calm-600 mb-4">
+                        <div><i class="fas fa-graduation-cap mr-2"></i>${doctor.experience} years experience</div>
+                        <div><i class="fas fa-language mr-2"></i>${doctor.languages.join(', ')}</div>
+                    </div>
+                    
+                    <div class="flex items-center space-x-3">
+                        ${doctor.socialMedia.instagram ? `<a href="https://instagram.com/${doctor.socialMedia.instagram.replace('@', '')}" target="_blank" class="text-pink-500 hover:text-pink-600"><i class="fab fa-instagram text-lg"></i></a>` : ''}
+                        ${doctor.socialMedia.facebook ? `<a href="https://facebook.com/${doctor.socialMedia.facebook}" target="_blank" class="text-blue-600 hover:text-blue-700"><i class="fab fa-facebook text-lg"></i></a>` : ''}
+                        ${doctor.socialMedia.whatsapp ? `<a href="https://wa.me/${doctor.socialMedia.whatsapp.replace('+', '')}" target="_blank" class="text-green-600 hover:text-green-700"><i class="fab fa-whatsapp text-lg"></i></a>` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Render analytics charts
+        function renderAnalyticsCharts() {
+            // Appointment status chart
+            const ctx = document.getElementById('appointmentStatusChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Scheduled', 'Confirmed', 'Completed', 'Cancelled'],
+                    datasets: [{
+                        data: [
+                            analytics.appointmentsByStatus?.scheduled || 0,
+                            analytics.appointmentsByStatus?.confirmed || 0,
+                            analytics.appointmentsByStatus?.completed || 0,
+                            analytics.appointmentsByStatus?.cancelled || 0
+                        ],
+                        backgroundColor: ['#3b82f6', '#10b981', '#64748b', '#ef4444']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+            
+            // Popular services
+            const servicesContainer = document.getElementById('popularServices');
+            if (analytics.popularServices) {
+                servicesContainer.innerHTML = analytics.popularServices.slice(0, 5).map(service => `
+                    <div class="flex justify-between items-center p-3 bg-white rounded-lg">
+                        <span class="font-medium text-calm-900">${service.name}</span>
+                        <span class="bg-trust-100 text-trust-800 px-2 py-1 rounded-full text-sm">${service.bookingCount} bookings</span>
+                    </div>
+                `).join('');
+            }
+        }
+        
+        // Load social profiles
+        async function loadSocialProfiles() {
+            try {
+                const response = await fetch(`${API_BASE}/instagram/profile`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    renderDoctorSocialProfiles(data.data.doctors);
+                }
+            } catch (error) {
+                console.error('Error loading social profiles:', error);
+            }
+        }
+        
+        // Render doctor social profiles
+        function renderDoctorSocialProfiles(doctors) {
+            const container = document.getElementById('doctorSocialProfiles');
+            
+            container.innerHTML = doctors.map(doctor => `
+                <div class="flex items-center justify-between p-4 bg-calm-50 rounded-lg">
+                    <div>
+                        <h4 class="font-medium text-calm-900">${doctor.name}</h4>
+                        <div class="flex items-center space-x-3 mt-2">
+                            ${doctor.instagram ? `<a href="https://instagram.com/${doctor.instagram.replace('@', '')}" target="_blank" class="text-pink-500 hover:text-pink-600"><i class="fab fa-instagram"></i> ${doctor.instagram}</a>` : ''}
+                            ${doctor.facebook ? `<a href="https://facebook.com/${doctor.facebook}" target="_blank" class="text-blue-600 hover:text-blue-700"><i class="fab fa-facebook"></i> ${doctor.facebook}</a>` : ''}
+                        </div>
+                    </div>
+                    <div class="flex space-x-2">
+                        <button onclick="shareToInstagram('${doctor.id}')" class="bg-pink-600 text-white px-3 py-2 rounded-lg hover:bg-pink-700 transition-colors text-sm">
+                            <i class="fab fa-instagram mr-1"></i>Share
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Show appointment details
+        function showAppointmentDetails(appointmentId) {
+            selectedAppointment = appointments.find(apt => apt.id === appointmentId);
+            if (!selectedAppointment) return;
+            
+            const modal = document.getElementById('appointmentModal');
+            const details = document.getElementById('appointmentDetails');
+            
+            details.innerHTML = `
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <h4 class="font-medium text-calm-700 mb-2">Patient Information</h4>
+                        <div class="bg-calm-50 rounded-lg p-4">
+                            <p><strong>Name:</strong> ${selectedAppointment.patient?.firstName} ${selectedAppointment.patient?.lastName}</p>
+                            <p><strong>Email:</strong> ${selectedAppointment.patient?.email}</p>
+                            <p><strong>Phone:</strong> ${selectedAppointment.patient?.phone}</p>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-medium text-calm-700 mb-2">Appointment Details</h4>
+                        <div class="bg-calm-50 rounded-lg p-4">
+                            <p><strong>Doctor:</strong> ${selectedAppointment.doctor?.name}</p>
+                            <p><strong>Service:</strong> ${selectedAppointment.service?.name}</p>
+                            <p><strong>Date:</strong> ${new Date(selectedAppointment.dateTime).toLocaleDateString()}</p>
+                            <p><strong>Time:</strong> ${new Date(selectedAppointment.dateTime).toLocaleTimeString()}</p>
+                            <p><strong>Duration:</strong> ${selectedAppointment.duration} minutes</p>
+                            <p><strong>Status:</strong> <span class="capitalize">${selectedAppointment.status}</span></p>
+                        </div>
+                    </div>
+                </div>
+                
+                ${selectedAppointment.notes ? `
+                    <div class="mt-4">
+                        <h4 class="font-medium text-calm-700 mb-2">Notes</h4>
+                        <div class="bg-calm-50 rounded-lg p-4">
+                            <p>${selectedAppointment.notes}</p>
+                        </div>
+                    </div>
+                ` : ''}
+            `;
+            
+            modal.classList.remove('hidden');
+        }
+        
+        // Close appointment modal
+        function closeAppointmentModal() {
+            document.getElementById('appointmentModal').classList.add('hidden');
+            selectedAppointment = null;
+        }
+        
+        // Update appointment status
+        async function updateAppointmentStatus(status) {
+            if (!selectedAppointment) return;
+            
+            try {
+                const response = await fetch(`${API_BASE}/appointments/${selectedAppointment.id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ status })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    closeAppointmentModal();
+                    loadAppointments();
+                    loadAnalytics();
+                    alert(`Appointment ${status} successfully!`);
+                } else {
+                    alert('Error updating appointment: ' + data.error);
+                }
+            } catch (error) {
+                console.error('Error updating appointment:', error);
+                alert('Error updating appointment');
+            }
+        }
+        
+        // Send appointment reminder
+        async function sendAppointmentReminder() {
+            if (!selectedAppointment) return;
+            
+            const message = `Hello ${selectedAppointment.patient?.firstName}! This is a reminder for your appointment with ${selectedAppointment.doctor?.name} on ${new Date(selectedAppointment.dateTime).toLocaleDateString()} at ${new Date(selectedAppointment.dateTime).toLocaleTimeString()}. See you soon!`;
+            
+            try {
+                const response = await fetch(`${API_BASE}/whatsapp/send`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        phone: selectedAppointment.patient?.phone,
+                        message: message,
+                        appointmentId: selectedAppointment.id
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    window.open(data.data.whatsappUrl, '_blank');
+                    alert('Reminder sent successfully!');
+                } else {
+                    alert('Error sending reminder: ' + data.error);
+                }
+            } catch (error) {
+                console.error('Error sending reminder:', error);
+                alert('Error sending reminder');
+            }
+        }
+        
+        // Send WhatsApp test
+        async function sendWhatsAppTest() {
+            const message = document.getElementById('whatsappMessage').value;
+            const phone = document.getElementById('whatsappPhone').value;
+            
+            if (!message || !phone) {
+                alert('Please enter both message and phone number');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE}/whatsapp/send`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ phone, message })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    window.open(data.data.whatsappUrl, '_blank');
+                    alert('WhatsApp message prepared successfully!');
+                } else {
+                    alert('Error preparing WhatsApp message: ' + data.error);
+                }
+            } catch (error) {
+                console.error('Error sending WhatsApp test:', error);
+                alert('Error sending WhatsApp test');
+            }
+        }
+        
+        // Share to Instagram
+        async function shareInstagram() {
+            const content = document.getElementById('instagramContent').value;
+            const imageUrl = document.getElementById('instagramImage').value;
+            
+            if (!content) {
+                alert('Please enter content for the Instagram post');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE}/instagram/share`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ content, imageUrl })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    window.open(data.data.instagramUrl, '_blank');
+                    alert('Instagram post prepared successfully!');
+                } else {
+                    alert('Error preparing Instagram post: ' + data.error);
+                }
+            } catch (error) {
+                console.error('Error sharing to Instagram:', error);
+                alert('Error sharing to Instagram');
+            }
+        }
+        
+        // Send WhatsApp reminder for specific appointment
+        async function sendWhatsAppReminder(appointmentId) {
+            const appointment = appointments.find(apt => apt.id === appointmentId);
+            if (!appointment) return;
+            
+            const message = `Hello ${appointment.patient?.firstName}! This is a reminder for your appointment with ${appointment.doctor?.name} on ${new Date(appointment.dateTime).toLocaleDateString()} at ${new Date(appointment.dateTime).toLocaleTimeString()}. See you soon at HDC!`;
+            
+            try {
+                const response = await fetch(`${API_BASE}/whatsapp/send`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        phone: appointment.patient?.phone,
+                        message: message,
+                        appointmentId: appointmentId
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    window.open(data.data.whatsappUrl, '_blank');
+                } else {
+                    alert('Error sending reminder: ' + data.error);
+                }
+            } catch (error) {
+                console.error('Error sending reminder:', error);
+                alert('Error sending reminder');
+            }
+        }
+        
+        // Contact patient
+        function contactPatient(patientId, method) {
+            const patient = patients.find(p => p.id === patientId);
+            if (!patient) return;
+            
+            if (method === 'whatsapp') {
+                const message = `Hello ${patient.firstName}! This is HDC. How can we assist you today?`;
+                const whatsappUrl = `https://wa.me/${patient.phone.replace('+', '')}?text=${encodeURIComponent(message)}`;
+                window.open(whatsappUrl, '_blank');
+            } else if (method === 'email') {
+                window.open(`mailto:${patient.email}?subject=HDC - Follow Up&body=Hello ${patient.firstName},%0D%0A%0D%0AHow can we assist you today?`);
+            }
+        }
+        
+        // Show loading overlay
+        function showLoading(show) {
+            document.getElementById('loadingOverlay').classList.toggle('hidden', !show);
+        }
+    </script>
+</body>
+</html>

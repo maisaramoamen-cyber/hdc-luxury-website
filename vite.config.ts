@@ -1,9 +1,12 @@
 import { defineConfig } from 'vite'
-import pages from '@hono/vite-cloudflare-pages'
 
-export default defineConfig({
-  plugins: [pages()],
-  build: {
-    outDir: 'dist'
+export default defineConfig(async () => {
+  const { default: pages } = await import('@hono/vite-cloudflare-pages')
+  
+  return {
+    plugins: [pages()],
+    build: {
+      outDir: 'dist'
+    }
   }
 })

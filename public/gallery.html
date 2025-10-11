@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Gallery - Hamido Dental Clinics</title>
+    <meta name="description" content="View our latest smile transformations and behind-the-scenes content from HDC's Instagram feed.">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+          theme: {
+            extend: {
+              colors: {
+                trust: { 50: '#eff6ff', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 800: '#1e40af', 900: '#1e3a8a' },
+                wellness: { 50: '#f0fdf4', 500: '#10b981', 600: '#059669', 700: '#047857', 800: '#065f46', 900: '#064e3b' },
+                luxury: { 50: '#fefce8', 500: '#eab308', 600: '#d97706', 700: '#b45309', 800: '#92400e', 900: '#78350f' },
+                calm: { 50: '#f8fafc', 100: '#f1f5f9', 500: '#64748b', 900: '#0f172a' }
+              },
+              fontFamily: { 'sans': ['Inter', 'system-ui', 'sans-serif'], 'luxury': ['Playfair Display', 'Georgia', 'serif'] }
+            }
+          }
+        }
+    </script>
+</head>
+
+<body class="bg-gradient-to-br from-calm-50 to-trust-50 font-sans">
+    <!-- Navigation -->
+    <nav class="bg-white/95 backdrop-blur-md shadow-lg fixed w-full top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <h1 class="text-2xl font-luxury font-bold text-trust-800">HDC</h1>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="/" class="text-calm-700 hover:text-trust-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Home</a>
+                        <a href="/booking.html" class="text-calm-700 hover:text-trust-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Book Appointment</a>
+                        <a href="/gallery.html" class="text-trust-600 px-3 py-2 rounded-md text-sm font-medium">Gallery</a>
+                        <a href="/admin.html" class="text-calm-700 hover:text-trust-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Admin</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-24 pb-16 bg-gradient-to-r from-trust-800 to-wellness-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl md:text-6xl font-luxury font-bold text-white mb-6">
+                Instagram Gallery
+            </h1>
+            <p class="text-xl text-trust-100 mb-8 max-w-3xl mx-auto">
+                Follow our journey of creating beautiful smiles and transforming lives. See our latest work and behind-the-scenes moments.
+            </p>
+            <div class="flex justify-center space-x-4">
+                <a href="https://www.instagram.com/hamidodental?igsh=MTIybjI0dTRsNm55eQ==" 
+                   target="_blank"
+                   class="bg-luxury-600 hover:bg-luxury-500 text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 flex items-center">
+                    <i class="fab fa-instagram mr-2"></i>
+                    Follow on Instagram
+                </a>
+                <button onclick="refreshGallery()" 
+                        class="bg-white/20 hover:bg-white/30 text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 flex items-center">
+                    <i class="fas fa-sync-alt mr-2"></i>
+                    Refresh Gallery
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Grid -->
+    <section class="py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Loading State -->
+            <div id="loading" class="text-center py-12">
+                <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-trust-600"></div>
+                <p class="mt-4 text-calm-600">Loading Instagram gallery...</p>
+            </div>
+
+            <!-- Gallery Grid -->
+            <div id="gallery-grid" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- Gallery items will be populated by JavaScript -->
+            </div>
+
+            <!-- Error State -->
+            <div id="error" class="hidden text-center py-12">
+                <div class="text-red-500 text-6xl mb-4">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-calm-800 mb-2">Unable to Load Gallery</h3>
+                <p class="text-calm-600 mb-4">Please try refreshing the page or check your internet connection.</p>
+                <button onclick="loadGallery()" class="bg-trust-600 hover:bg-trust-700 text-white px-6 py-2 rounded-lg transition-colors">
+                    Try Again
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Instagram Profile Info -->
+    <section class="py-16 bg-gradient-to-r from-trust-50 to-wellness-50">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="bg-white rounded-2xl shadow-xl p-8">
+                <div class="flex items-center justify-center mb-6">
+                    <div class="w-20 h-20 bg-gradient-to-r from-trust-600 to-wellness-600 rounded-full flex items-center justify-center text-white text-3xl">
+                        <i class="fab fa-instagram"></i>
+                    </div>
+                </div>
+                <h3 class="text-2xl font-luxury font-bold text-calm-800 mb-2">@hamidodental</h3>
+                <p class="text-calm-600 mb-6">Luxury Is Dentistry ✨<br>Premium dental care in Cairo, Egypt 🇪🇬<br>Featured in NICHE Luxury Magazine 📖</p>
+                <div class="grid grid-cols-3 gap-4 mb-6">
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-trust-600" id="posts-count">-</div>
+                        <div class="text-sm text-calm-500">Posts</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-trust-600">12.5K</div>
+                        <div class="text-sm text-calm-500">Followers</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-trust-600">1.2K</div>
+                        <div class="text-sm text-calm-500">Following</div>
+                    </div>
+                </div>
+                <a href="https://www.instagram.com/hamidodental?igsh=MTIybjI0dTRsNm55eQ==" 
+                   target="_blank"
+                   class="inline-flex items-center bg-gradient-to-r from-trust-600 to-wellness-600 text-white px-8 py-3 rounded-full font-semibold hover:shadow-lg transition-all duration-300">
+                    <i class="fab fa-instagram mr-2"></i>
+                    Follow Us on Instagram
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal for Image View -->
+    <div id="image-modal" class="fixed inset-0 bg-black bg-opacity-75 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-4xl w-full max-h-full overflow-auto">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-semibold text-calm-800">Instagram Post</h3>
+                    <button onclick="closeModal()" class="text-calm-500 hover:text-calm-700 text-2xl">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div id="modal-content">
+                    <!-- Modal content will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let galleryData = [];
+
+        // Load Instagram gallery
+        async function loadGallery() {
+            try {
+                document.getElementById('loading').classList.remove('hidden');
+                document.getElementById('gallery-grid').classList.add('hidden');
+                document.getElementById('error').classList.add('hidden');
+
+                const response = await fetch('/api/instagram/gallery');
+                const data = await response.json();
+
+                if (data.success) {
+                    galleryData = data.data;
+                    renderGallery(galleryData);
+                    document.getElementById('posts-count').textContent = data.count;
+                } else {
+                    throw new Error(data.error || 'Failed to load gallery');
+                }
+            } catch (error) {
+                console.error('Error loading gallery:', error);
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('error').classList.remove('hidden');
+            }
+        }
+
+        // Render gallery grid
+        function renderGallery(posts) {
+            const grid = document.getElementById('gallery-grid');
+            grid.innerHTML = '';
+
+            posts.forEach((post, index) => {
+                const postElement = document.createElement('div');
+                postElement.className = 'group cursor-pointer transform hover:scale-105 transition-all duration-300';
+                postElement.onclick = () => openModal(post);
+
+                postElement.innerHTML = `
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                        <div class="relative">
+                            <img src="${post.imageUrl}" 
+                                 alt="Instagram post" 
+                                 class="w-full h-64 object-cover group-hover:opacity-90 transition-opacity">
+                            <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
+                                <div class="text-white opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <i class="fas fa-search-plus text-2xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <p class="text-calm-700 text-sm line-clamp-2 mb-3">${post.caption}</p>
+                            <div class="flex items-center justify-between text-xs text-calm-500">
+                                <div class="flex items-center space-x-3">
+                                    <span><i class="fas fa-heart text-red-500 mr-1"></i>${post.engagement.likes}</span>
+                                    <span><i class="fas fa-comment text-trust-500 mr-1"></i>${post.engagement.comments}</span>
+                                </div>
+                                <span>${new Date(post.date).toLocaleDateString()}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                grid.appendChild(postElement);
+            });
+
+            document.getElementById('loading').classList.add('hidden');
+            document.getElementById('gallery-grid').classList.remove('hidden');
+        }
+
+        // Open modal with post details
+        function openModal(post) {
+            const modal = document.getElementById('image-modal');
+            const content = document.getElementById('modal-content');
+
+            content.innerHTML = `
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <img src="${post.imageUrl}" alt="Instagram post" class="w-full rounded-lg">
+                    </div>
+                    <div>
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-gradient-to-r from-trust-600 to-wellness-600 rounded-full flex items-center justify-center text-white mr-3">
+                                <i class="fab fa-instagram"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-calm-800">@hamidodental</h4>
+                                <p class="text-sm text-calm-500">${new Date(post.date).toLocaleDateString()}</p>
+                            </div>
+                        </div>
+                        <p class="text-calm-700 mb-6">${post.caption}</p>
+                        <div class="flex items-center space-x-6 mb-6">
+                            <span class="flex items-center text-calm-600">
+                                <i class="fas fa-heart text-red-500 mr-2"></i>${post.engagement.likes} likes
+                            </span>
+                            <span class="flex items-center text-calm-600">
+                                <i class="fas fa-comment text-trust-500 mr-2"></i>${post.engagement.comments} comments
+                            </span>
+                        </div>
+                        <div class="space-y-3">
+                            <a href="${post.instagramUrl}" target="_blank" 
+                               class="block w-full bg-gradient-to-r from-trust-600 to-wellness-600 text-white text-center py-3 rounded-lg font-semibold hover:shadow-lg transition-all duration-300">
+                                <i class="fab fa-instagram mr-2"></i>View on Instagram
+                            </a>
+                            <a href="/booking.html" 
+                               class="block w-full bg-luxury-600 hover:bg-luxury-700 text-white text-center py-3 rounded-lg font-semibold transition-colors">
+                                <i class="fas fa-calendar-plus mr-2"></i>Book Appointment
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            modal.classList.remove('hidden');
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('image-modal').classList.add('hidden');
+        }
+
+        // Refresh gallery
+        function refreshGallery() {
+            loadGallery();
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('image-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Load gallery on page load
+        document.addEventListener('DOMContentLoaded', loadGallery);
+    </script>
+
+    <!-- Floating WhatsApp -->
+    <div class="fixed bottom-6 right-6 z-40">
+        <a href="https://wa.me/201114591117?text=Hello%20HDC,%20I%20saw%20your%20Instagram%20gallery%20and%20would%20like%20to%20book%20a%20consultation" 
+           class="bg-wellness-600 hover:bg-wellness-500 text-white rounded-full p-4 shadow-2xl transition-all duration-300 flex items-center justify-center w-16 h-16 animate-pulse" 
+           target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-whatsapp text-3xl"></i>
+        </a>
+    </div>
+
+    <style>
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .animate-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .5; }
+        }
+    </style>
+</body>
+</html>
