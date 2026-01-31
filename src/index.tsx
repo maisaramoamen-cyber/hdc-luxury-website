@@ -156,7 +156,7 @@ app.get('/', (c) => {
             <div class="container mx-auto px-6 py-4">
                 <div class="flex justify-between items-center">
                     <div class="flex items-center space-x-4">
-                        <div class="text-2xl luxury-text gold-accent font-bold">CPI</div>
+                        <img src="/public/static/images/crystal-power-logo-small.png" alt="Crystal Power Investments" class="h-12 w-auto">
                         <div class="hidden md:block">
                             <p class="text-sm gold-accent font-light">Crystal Power Investments</p>
                             <p class="text-xs text-vip-light-gold">Strategic Multi-Sector Platform</p>
@@ -201,6 +201,7 @@ app.get('/', (c) => {
                     
                     <div class="bg-gradient-to-br from-vip-burgundy to-vip-black p-8 rounded-lg border border-vip-gold border-opacity-30">
                         <div class="text-center">
+                            <img src="/public/static/images/crystal-power-logo.png" alt="Crystal Power Logo" class="w-32 h-auto mx-auto mb-6">
                             <p class="text-6xl luxury-text gold-accent font-bold mb-2">366%</p>
                             <p class="text-vip-light-gold mb-6">Achieved across multi-sector portfolio since 2022</p>
                             <div class="grid grid-cols-2 gap-4 mt-8">
@@ -402,9 +403,12 @@ app.get('/', (c) => {
         <footer class="bg-vip-black border-t border-vip-gold py-12">
             <div class="container mx-auto px-6">
                 <div class="grid md:grid-cols-3 gap-8 mb-8">
-                    <div>
-                        <p class="luxury-text text-lg gold-accent font-bold mb-2">Crystal Power Investments</p>
-                        <p class="text-vip-light-gold text-sm">Strategic multi-sector investment platform leading Egypt's economic transformation.</p>
+                    <div class="flex items-start space-x-4">
+                        <img src="/public/static/images/crystal-power-icon.png" alt="Crystal Power" class="w-16 h-auto">
+                        <div>
+                            <p class="luxury-text text-lg gold-accent font-bold mb-2">Crystal Power Investments</p>
+                            <p class="text-vip-light-gold text-sm">Strategic multi-sector investment platform leading Egypt's economic transformation.</p>
+                        </div>
                     </div>
                     <div>
                         <p class="gold-accent font-semibold mb-4">Quick Links</p>
